@@ -102,44 +102,32 @@ If you have a hard time reading the tables or titles, render the markdown, and t
 
 Many instance methods and variables within the classes are hidden. Generally speaking, if it doesn't make sense for the variable to be changed by the user, then it's not public. A good example of this is the deck class, We want to keep the deck private, but still allow things like drawing cards, so we make the variables private, but create public methods to do specific actions.
 
-+------------+-------+------------------------------------------------------------------------------------+
 | File       | Line  | Description                                                                        |
 | :--------- | :---: | :--------------------------------------------------------------------------------- |
 | player.py  | 39,48 | Using properties for a getter and setter on a private variable                     |
-+------------+-------+------------------------------------------------------------------------------------+
 | card.py    |  63   | Using a property to allow getting, but not setting the name value                  |
-+------------+-------+------------------------------------------------------------------------------------+
 | go_fish.py |  52   | protecting a method from outside calling by prepending the name with an underscore |
-+------------+-------+------------------------------------------------------------------------------------+
 | go_fish.py |  203  | making a method public by not adding an underscore to the beginning of the name    |
-+------------+-------+------------------------------------------------------------------------------------+
 
 #### High cohesion and Low Coupling -> MVC used for GUI, code split into modules
 
 For this assignment I rewrote the front end of my application, to better decouple it from the game object. While the front end is not general enough to work with any game, it does not interact directly with the game except to read its state to update the interface. This was accomplished by adding a controller (GoFishGame in main.py:23) between the model(GoFish in go_fish.py:19) and view (MainWindow in main_window.py:23). This allows the objects to be less coupled to each other.
 
-+---------+-------+---------------------------------------------------------------------------------------------------+
 | File    | Line  | Description                                                                                       |
 | :------ | :---: | :------------------------------------------------------------------------------------------------ |
 | main.py |  23   | The controller that was added to reduce coupling between the GUI and game                         |
-+---------+-------+---------------------------------------------------------------------------------------------------+
 | main.py | 17-20 | Main imports from 3 different local modules: the root (the folder that main is in, go_fish, which |
 |         |       | contains all the go fish related classes, and ui, which has most of the GUI classes.)             |
-+---------+-------+---------------------------------------------------------------------------------------------------+
 
 #### Good code style -> Following PEP8, type hinting
 
 Throughout my code I adhere to Python style guides (as much as possible). This is accomplished through the use of an auto formatter.
 As well, I use type hinting to enhance the readability and understandability of my code through the annotations of parameters and return values of functions.
 
-+------------+-------+----------------------------------------------------------------------------------------+
-| File       | Line  | Description                                                                            |
-| :--------- | :---: | :------------------------------------------------------------------------------------- |
-| go_fish.py |  73   | Type hinting a function to help a reader better understand what it does, if also has a |
-|            |       | docstring to explain the purpose if each argument                                      |
-+------------+-------+----------------------------------------------------------------------------------------+
-| main.py    |  117  | Another example of type hinting and a docstring                                        |
-+------------+-------+----------------------------------------------------------------------------------------+
+| File       | Line  | Description                                                                                                                              |
+| :--------- | :---: | :--------------------------------------------------------------------------------------------------------------------------------------- |
+| go_fish.py |  73   | Type hinting a function to help a reader better understand what it does, if also has a docstring to explain the purpose if each argument |
+| main.py    |  117  | Another example of type hinting and a docstring                                                                                          |
 
 For more examples, look at almost any  public function in the program, and it will be annotated with a docstring and have type hinting
 
@@ -147,37 +135,24 @@ For more examples, look at almost any  public function in the program, and it wi
 
 Python has built in functions for classes that can be overridden, for example to print to a string, for equality or to allow access by index.
 
-+-----------+-------+---------------------------------------------------------------------------------+
 | File      | Line  | Description                                                                     |
 | :-------- | :---: | :------------------------------------------------------------------------------ |
 | card.py   |  39   | function to output a CardValue to a string (allows use of the str() function)   |
-+-----------+-------+---------------------------------------------------------------------------------+
 | card.py   |  96   | function to output a Card to a string (allows use of the str() function)        |
-+-----------+-------+---------------------------------------------------------------------------------+
 | card.py   |  42   | function compare 2 CardValues against each other using =                        |
-+-----------+-------+---------------------------------------------------------------------------------+
 | hand.py   |  23   | function to output a Hand to a string (allows use of the str() function)        |
-+-----------+-------+---------------------------------------------------------------------------------+
 | player.py |  31   | function to output a Player to a string (allows use of the str() function)      |
-+-----------+-------+---------------------------------------------------------------------------------+
 | player.py |  31   | function to output a HumanPlayer to a string (allows use of the str() function) |
-+-----------+-------+---------------------------------------------------------------------------------+
 | player.py |  31   | function to output a BotPlayer to a string (allows use of the str() function)   |
-+-----------+-------+---------------------------------------------------------------------------------+
 
 ### Utilize persistence effectively to realize a user story that could not be realized without persistence
 
 I used persistence to allow a user to save and open games. To do this, I use the built in pickle module which exports an object to a binary file, and allows that object to be read back into an object.
 
-+---------+-------+-----------------------------------------------------------------------------------------------+
-| File    | Line  | Description                                                                                   |
-| :------ | :---: | :-------------------------------------------------------------------------------------------- |
-| main.py |  59   | In this function I use the file name that is provided by the file_name parameter and save the |
-|         |       | object to a binary file                                                                       |
-+---------+-------+-----------------------------------------------------------------------------------------------+
-| main.py |  70   | In this function I use the file name that is provided by the file_name parameter and read the |
-|         |       | binary file into the game variable, then set up the opened game for the player                |
-+---------+-------+-----------------------------------------------------------------------------------------------+
+| File    | Line  | Description                                                                                                                                                                  |
+| :------ | :---: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| main.py |  59   | In this function I use the file name that is provided by the file_name parameter and save the object to a binary file                                                        |
+| main.py |  70   | In this function I use the file name that is provided by the file_name parameter and read the binary file into the game variable, then set up the opened game for the player |
 
 ### Facilitate the addition of portability to your program via the definition and creation of portable objects
 
@@ -186,42 +161,24 @@ To make each of the objects portable, I added 2 methods to each: `json_dict` and
 `json_str` calls `json_dict`, but then dumps that dict to JSON and returns that string.
 These are JSON to facilitate future creation of a web version, to allow multiple people to play against each other over a network. Since JSON is ubiquitous for use in REST APIs on a network, I chose JSON over XML.
 
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| File      | Line  | Description                                                                                |
-| :-------- | :---: | :----------------------------------------------------------------------------------------- |
-| card.py   |  70   | `json_dict` method for a CardValue                                                         |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| card.py   |  78   | `json_str` method for a CardValue                                                          |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| card.py   |  155  | `json_dict` method for a Card, calls the same method for CardValue                         |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| card.py   |  166  | `json_str` method for a Card                                                               |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| deck.py   |  84   | `json_dict` method for a Deck, calls the same method for Card                              |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| deck.py   |  101  | `json_str` method for a Deck                                                               |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| game.py   |  81   | `json_dict` method for a Game, calls the same method for Deck, HumanPlayer, BotPlayer      |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| game.py   |  99   | `json_str` method for a Game                                                               |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| hand.py   |  100  | `json_dict` method for a Hand, calls the same method for Card                              |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| hand.py   |  113  | `json_str` method for a Hand                                                               |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| player.py |  170  | `json_dict` method for a Player, calls the same method for Card and Hand                   |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| player.py |  186  | `json_str` method for a Player                                                             |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| player.py |  210  | `json_dict` method for a HumanPlayer, simply renames the object from player to humanPlayer |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| player.py |  221  | `json_str` method for a HumanPlayer                                                        |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| player.py |  255  | `json_dict` method for a HumanPlayer, simply renames the object from player to             |
-|           |       | botPlayer and adds bot_difficulty                                                          |
-+-----------+-------+--------------------------------------------------------------------------------------------+
-| player.py |  267  | `json_str` method for a BotPlayer                                                          |
-+-----------+-------+--------------------------------------------------------------------------------------------+
+| File      | Line  | Description                                                                                                      |
+| :-------- | :---: | :--------------------------------------------------------------------------------------------------------------- |
+| card.py   |  70   | `json_dict` method for a CardValue                                                                               |
+| card.py   |  78   | `json_str` method for a CardValue                                                                                |
+| card.py   |  155  | `json_dict` method for a Card, calls the same method for CardValue                                               |
+| card.py   |  166  | `json_str` method for a Card                                                                                     |
+| deck.py   |  84   | `json_dict` method for a Deck, calls the same method for Card                                                    |
+| deck.py   |  101  | `json_str` method for a Deck                                                                                     |
+| game.py   |  81   | `json_dict` method for a Game, calls the same method for Deck, HumanPlayer, BotPlayer                            |
+| game.py   |  99   | `json_str` method for a Game                                                                                     |
+| hand.py   |  100  | `json_dict` method for a Hand, calls the same method for Card                                                    |
+| hand.py   |  113  | `json_str` method for a Hand                                                                                     |
+| player.py |  170  | `json_dict` method for a Player, calls the same method for Card and Hand                                         |
+| player.py |  186  | `json_str` method for a Player                                                                                   |
+| player.py |  210  | `json_dict` method for a HumanPlayer, simply renames the object from player to humanPlayer                       |
+| player.py |  221  | `json_str` method for a HumanPlayer                                                                              |
+| player.py |  255  | `json_dict` method for a HumanPlayer, simply renames the object from player to botPlayer and adds bot_difficulty |
+| player.py |  267  | `json_str` method for a BotPlayer                                                                                |
 
 ## Assumptions & Limitations
 
